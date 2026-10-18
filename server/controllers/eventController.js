@@ -1,4 +1,5 @@
 const Event = require('../models/Event');
+const User = require('../models/User');
 
 // Controller functions for handling event-related operations
 const getAllEvents = async (req, res) => {
@@ -35,8 +36,9 @@ const getEventById = async (req, res) => {
 };
 
 const createEvent = async (req, res) => {
-    const { title, description, date, location, category, totalSeats, ticketPrice, imageUrl } = req.body;
+    const { title, description, date, location, category, totalSeats,availableSeats, ticketPrice, imageUrl,createdBy } = req.body;
     try {
+       
         const event = await Event.create({
             title,
             description,
@@ -44,8 +46,10 @@ const createEvent = async (req, res) => {
             location,
             category,
             totalSeats,
+            availableSeats,
             ticketPrice,
-            imageUrl
+            imageUrl,
+            createdBy:req.user._id
         });
         res.status(201).json(event);
     } catch (error) {
@@ -54,7 +58,7 @@ const createEvent = async (req, res) => {
 };
 
 const updateEvent = async (req, res) => {
-    const { title, description, date, location, category, totalSeats, ticketPrice, imageUrl } = req.body;
+    const { title, description, date, location, category, totalSeats, availableSeats, ticketPrice, imageUrl } = req.body;
     try {
         const event = await Event.findByIdAndUpdate(req.params.id, {
             title,
@@ -63,6 +67,7 @@ const updateEvent = async (req, res) => {
             location,
             category,
             totalSeats,
+            availableSeats,
             ticketPrice,
             imageUrl
         }, { new: true });

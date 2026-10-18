@@ -17,7 +17,11 @@ app.use('/api/auth',authRoutes);
 app.use('/api/events',eventRoutes);
 app.use('/api/bookings',bookingRoutes);
 
-const port=process.env.PORT || 5000;
+app.get('/',(req,res)=>{
+    res.send('Hello World')
+})
+
+const port=Number(process.env.PORT) || 5000;
 
 //Connecting to MongoDB
 mongoose.connect(process.env.MONGO_URI)

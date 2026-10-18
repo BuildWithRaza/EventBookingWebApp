@@ -34,7 +34,9 @@ exports.register=async(req,res)=>{
 
         await sendOtpEmail(email,otp,'account_verification')
 
-        res.status(201).json({message:"User Registered Successfully,Please check your email for otp to verify your account",
+        res.status(201).json({
+            status:200,
+            message:"User Registered Successfully,Please check your email for otp to verify your account",
             email:user.email
         });
 
@@ -80,7 +82,8 @@ exports.login=async(req,res)=>{
 
     res.status(200).json({
         message:"Login Successful",
-       
+        status:200,
+
             _id:user._id,
             name:user.name,
             email:user.email,
@@ -103,6 +106,7 @@ exports.verifyOtp = async (req,res)=>{
     await OTP.deleteMany({email,action:'account_verification'});
 
     res.status(200).json({
+        status:200,
         message:'Account verified successfully',
         _id:user._id,
         name:user.name,

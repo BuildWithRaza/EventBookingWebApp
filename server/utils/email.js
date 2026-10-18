@@ -7,17 +7,21 @@ const transporter=nodemailer.createTransport({
     service:'gmail',
     auth:{
         user:process.env.EMAIL_USER,
-        pass:process.env.EMAIL_PAAS
+        pass:process.env.EMAIL_PASS
     }
 });
 
-exports.sendBookingEmail=async (userEmail ,eventTitle,date)=>{
+exports.sendBookingEmail=async (userEmail,userName ,eventTitle)=>{
     try{
      const mailOptions = {
         from:process.env.EMAIL_USER,
         to:userEmail,
         subject:`Booking Confirmed for ${eventTitle}`,
-        text:`your booking for the ${eventTitle} on ${date} is confirmed`
+        html: `
+        <h2>Hi ${userName}!</h2>
+        <p>Your booking for the event <strong>${eventTitle}</strong> is successfully confirmed.</p>
+        <p>Thank you for choosing Eventora.</p>
+      `
      };
      await transporter.sendMail(mailOptions);
      console.log(`email send to ${userEmail}`)
